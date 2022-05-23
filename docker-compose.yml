@@ -33,7 +33,7 @@ services:
       - app-network
 
   nginx:
-    image: mainline-alpine
+    image: docker.io/library/nginx:mainline-alpine
     container_name: nginx
     restart: unless-stopped
     ports:
