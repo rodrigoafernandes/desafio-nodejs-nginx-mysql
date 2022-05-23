@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app
+    container_name: app
+    restart: unless-stopped
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=fullcycle
+      - DB_PASSWORD=fullcycle123
+      - DB_DATABASE=fullcycle
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: docker.io/library/mysql:8.0.29-debian
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_USER=fullcycle
+      - MYSQL_PASSWORD=fullcycle123
+      - MYSQL_DATABASE=fullcycle
+    volumes:
+      - ./mysql/schema:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+  nginx:
+    image: mainline-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
