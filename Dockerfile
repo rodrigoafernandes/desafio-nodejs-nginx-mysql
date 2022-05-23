@@ -14,5 +14,5 @@ FROM gcr.io/distroless/nodejs-debian11:16-debug
 WORKDIR /app
 COPY --from=build /usr/src/app /app
 COPY --from=build /usr/local/bin/dockerize /usr/local/bin/dockerize
-ENTRYPOINT ["dockerize", "--wait", "tcp://mysql:3306", "--timeout", "20s"]
+ENTRYPOINT ["dockerize", "--wait", "tcp://mysql:3306", "--timeout", "35s"]
 CMD ["/nodejs/bin/node", "index.js"]
