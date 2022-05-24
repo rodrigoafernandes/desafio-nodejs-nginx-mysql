@@ -10,7 +10,7 @@ RUN apk add --no-cache openssl \
     && npm install \
     && npm ci --omit=dev
 
-FROM gcr.io/distroless/nodejs-debian11:16-debug
+FROM gcr.io/distroless/nodejs-debian11:16
 WORKDIR /app
 COPY --from=build /usr/src/app /app
 COPY --from=build /usr/local/bin/dockerize /usr/local/bin/dockerize
